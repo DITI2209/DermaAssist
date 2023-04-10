@@ -4,7 +4,9 @@ from firebase_admin import credentials, auth, storage
 import jinja2
 from datetime import timedelta
 import pyrebase
-from flask import Flask, redirect, url_for, flash
+from flask import Flask, redirect, url_for, flash, session
+from flask_session import Session
+
 
 app = Flask(__name__)
 config = {
@@ -41,6 +43,7 @@ def login():
         else:
             try:
                 user = auth.sign_in_with_email_and_password(email, password)
+                # session['user'] = email
             except auth.AuthError as e:
                 # Handle any authentication errors
                 error_code = e.detail.get('code')
@@ -90,10 +93,8 @@ def upload():
         file = request.files['file']
         if file:
             # Upload the file to Firebase Storage
-            blob = storage.child(file.filename).put(file)
-            # Save the download URL for the file in your database
-            url = storage.child(file.filename).get_url(blob)
-            # Redirect to the uploaded file or the dashboard
+            storage.child("images/"+file.filename).put(file)
+            return 'Successful'
     return render_template('upload.html')
 
 if __name__ == '__main__':

@@ -22,12 +22,15 @@
         <a class="mr-5 hover:text-white">Third Link</a>
         <a class="mr-5 hover:text-white">Fourth Link</a>
       </nav>
-      <a class="btn btn-primary shadow" role="button" href="/login">Login</a>
-      <!-- <button class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Get Started
+    
+    <form action="/getstarted" method="GET">
+      <button class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Get Started
         <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
           <path d="M5 12h14M12 5l7 7-7 7"></path>
         </svg>
-      </button>  -->
+      </button> 
+    </a> 
+  </form>
     </div>
   </header>
 
@@ -41,21 +44,22 @@
         </h1>
         <p class="mb-8 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tincidunt efficitur ultrices. Nullam ac risus ipsum. Integer et scelerisque sapien. Integer vitae mattis ligula. Donec viverra, turpis sed pharetra venenatis, sem metus rutrum leo, ut suscipit neque purus a orci. Praesent hendrerit augue at ultricies eleifend. </p>
         <div class="flex justify-center">
-          <a href="/login">
-          <button href="/login" class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Login</button>
-         </a>
+          
+          <!-- <form action="/login" method="POST"> -->
+            <a href="/login" class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Login</a>
+          <!-- </form> -->
 
-         <a href="/signup">
-          <button href='/signup' class="ml-4 inline-flex text-gray-400 bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-700 hover:text-white rounded text-lg">Sign Up</button>
-        </a>
+
+          <!-- <form action="/signup" method="POST"> -->
+            <a href="/signup" type="submit" class="ml-4 inline-flex text-gray-400 bg-gray-800 border-0 py-2 px-6 focus:outline-none hover:bg-gray-700 hover:text-white rounded text-lg">Sign Up</a>
+          <!-- </form> -->
         </div>
       </div>
+
       <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
         <img class="object-cover object-center rounded" alt="hero" src="https://dummyimage.com/720x600">
       </div>
     </div>
- 
-
   </section>
 </body>
 </html>
