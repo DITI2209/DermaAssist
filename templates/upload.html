@@ -30,17 +30,20 @@
                 </svg>
                 Upload Skin Lesion Image
               </label>
-              <input type="file" name="file" accept="image/*" class="hidden" id="skin-image-upload" onchange="previewImage(event)"/>
+              <input type="file" name="pic" accept="image/*" class="hidden" id="skin-image-upload" onchange="previewImage(event)"/>
             </div>
-            <button type="submit" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition duration-200 ml-4">Upload</button>
+            <button type="submit" name="upload" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition duration-200 ml-4">Upload</button>
           </form>
         </div>
         <div class="md:w-1/2 w-5/6">
           <img id="image-preview" class="object-cover object-center rounded" alt="hero" src="https://dummyimage.com/720x600"/>
+          <form action="/showresult" method="post">
           <div class="mt-4" id="button-container" style="display: none;">
-            <button id="process-button" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition duration-200">Process Image</button>
+            <button id="process-button" type="submit" name="process" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition duration-200">Process Image</button>
+          
           </div>
           </div>
+          </form>
           </div>
           </section>
     <script>
