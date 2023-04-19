@@ -162,8 +162,8 @@ def mail():
         #     f.write(pdf_bytes)
         
         # Your Twilio account SID and auth token
-        account_sid = 'AC14a03bed9ac15b6290d1e92b2ece8670'
-        auth_token = 'e31163af1dc8b0ecc8db9e120e00af1b'
+        account_sid = ''
+        auth_token = ''
 
             # Create a Twilio client
         client = Client(account_sid, auth_token)
