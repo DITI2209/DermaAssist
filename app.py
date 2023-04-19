@@ -192,9 +192,9 @@ def mail():
             pdf_writer.write(pdf_file)
 
         # Send the encrypted PDF file as an email attachment
-        from_email = "aryaman.tiwary@somaiya.edu"
-        from_password = "Aryaman@2001"
-        to_emails = ["aryaman.tiwary@somaiya.edu", "shriya.pingulkar@somaiya.edu"]
+        from_email = "xyz@somaiya.edu"
+        from_password = "xyz"
+        to_emails = ["xyz@somaiya.edu", "xyz@somaiya.edu"]
         subject = "Encrypted PDF file"
         message = "Here is the encrypted PDF file as requested."
 
