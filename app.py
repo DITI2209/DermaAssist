@@ -9,6 +9,17 @@ from flask_session import Session
 from PIL import Image
 import numpy as np
 import skin_cancer_detection as SCD
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email.utils import COMMASPACE
+from email import encoders
+import os
+import PyPDF2
+import random
+import string
+from twilio.rest import Client
 
 app = Flask(__name__)
 config = {
@@ -21,10 +32,11 @@ config = {
   "appId": "1:588321601903:web:e072797fc9189e9465d09a",
   "measurementId": "G-04938M5W17"
 }
+
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 storage = firebase.storage()
-# bucket = storage.bucket()
+
 
 @app.route('/')
 def index():
@@ -130,5 +142,94 @@ def upload():
             return render_template("reults.html", result=result, info=info, links=links)
     return render_template('upload.html')
 
+@app.route('/report', methods=['GET', 'POST'])
+def report():
+    if request.method == 'POST':
+        return render_template('mail.html')
+    return render_template('report.html')
+
+newwebpage = os.path.join(os.getcwd(), "newwebpage.pdf")
+
+@app.route('/mail', methods=['GET', 'POST'])
+def mail():
+    if request.method == 'POST':
+        password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        # password = request.form['pass']
+        pdf_ref = storage.child("reports/newwebpage.pdf").download(filename="newwebpage.pdf", path=os.path.basename(newwebpage))
+        # pdf_bytes = pdf_ref.download_as_bytes()
+        # pdf_filename = "newwebpage.pdf"
+        # with open(pdf_filename, "wb") as f:
+        #     f.write(pdf_bytes)
+        
+        # Your Twilio account SID and auth token
+        account_sid = 'AC14a03bed9ac15b6290d1e92b2ece8670'
+        auth_token = 'e31163af1dc8b0ecc8db9e120e00af1b'
+
+            # Create a Twilio client
+        client = Client(account_sid, auth_token)
+
+            # The phone number you want to send the message to
+        to_number = '+919039831266'
+
+            # The Twilio phone number you want to use as the sender
+        from_number = '+16205368988'
+
+            # The message you want to send
+        message = password
+
+            # Send the message using Twilio
+        client.messages.create(
+                to=to_number,
+                from_=from_number,
+                body=message)
+        
+        pdf_reader = PyPDF2.PdfReader(newwebpage)
+        pdf_writer = PyPDF2.PdfWriter()
+        pdf_writer.append_pages_from_reader(pdf_reader)
+        pdf_writer.encrypt(password)
+        encrypted_pdf_filename = "newwebpage_encrypted.pdf"
+        with open(encrypted_pdf_filename, "wb") as pdf_file:
+            pdf_writer.write(pdf_file)
+
+        # Send the encrypted PDF file as an email attachment
+        from_email = "aryaman.tiwary@somaiya.edu"
+        from_password = "Aryaman@2001"
+        to_emails = ["aryaman.tiwary@somaiya.edu", "shriya.pingulkar@somaiya.edu"]
+        subject = "Encrypted PDF file"
+        message = "Here is the encrypted PDF file as requested."
+
+        msg = MIMEMultipart()
+        msg['From'] = from_email
+        msg['To'] = COMMASPACE.join(to_emails)
+        msg['Subject'] = subject
+        msg.attach(MIMEText(message))
+
+        with open(encrypted_pdf_filename, "rb") as pdf_file:
+            attachment = MIMEBase('application', 'octet-stream')
+            attachment.set_payload(pdf_file.read())
+            encoders.encode_base64(attachment)
+            attachment.add_header('Content-Disposition', f'attachment; filename="{encrypted_pdf_filename}"')
+            msg.attach(attachment)
+
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(from_email, from_password)
+        server.sendmail(from_email, to_emails, msg.as_string())
+        server.quit()
+
+        # Delete the temporary files
+        # os.remove(pdf_filename)
+        os.remove(encrypted_pdf_filename)
+
+        return render_template('final.html')
+
+    return render_template('mail.html')
+
+@app.route('/final', methods=['GET', 'POST'])
+def final():
+    return render_template('final.html')
 if __name__ == '__main__':
     app.run(debug=True)

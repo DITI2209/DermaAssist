@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  h2 {
+    margin-top: 30px;
+  }
+  
+  #medicalDocument {
+    width: 800px;
+    margin: 0 auto;
+    border: 1px solid black;
+    padding: 20px;
+  }
+  
+  p {
+    margin: 10px 0;
+  }
+  
+  span {
+    border-bottom: 1px solid black;
+  }
+  #pdf {
+    display: block;
+    margin: 20px auto;
+  }
+  #printBtn {
+    display: block;
+    margin: 20px auto;
+  }
+  @media print {
+    #printBtn {
+        display: none;
+    }
+}
+
