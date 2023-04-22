@@ -155,15 +155,12 @@ def mail():
     if request.method == 'POST':
         password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
         # password = request.form['pass']
-        pdf_ref = storage.child("reports/newwebpage.pdf").download(filename="newwebpage.pdf", path=os.path.basename(newwebpage))
-        # pdf_bytes = pdf_ref.download_as_bytes()
-        # pdf_filename = "newwebpage.pdf"
-        # with open(pdf_filename, "wb") as f:
-        #     f.write(pdf_bytes)
+        pdf_ref = storage.child("reports/newwebpage.pdf").download(filename="newwebpage.pdf")
+
         
         # Your Twilio account SID and auth token
-        account_sid = ''
-        auth_token = ''
+        account_sid = 'AC14a03bed9ac15b6290d1e92b2ece8670'
+        auth_token = '3a79148435f2ab08402fd7e38ea55cd6'
 
             # Create a Twilio client
         client = Client(account_sid, auth_token)
@@ -192,9 +189,9 @@ def mail():
             pdf_writer.write(pdf_file)
 
         # Send the encrypted PDF file as an email attachment
-        from_email = "xyz@somaiya.edu"
-        from_password = "xyz"
-        to_emails = ["xyz@somaiya.edu", "xyz@somaiya.edu"]
+        from_email = "aryaman.tiwary@somaiya.edu"
+        from_password = "Aryaman@2001"
+        to_emails = ["aryaman.tiwary@somaiya.edu", "diti.divekar@somaiya.edu"]
         subject = "Encrypted PDF file"
         message = "Here is the encrypted PDF file as requested."
 
