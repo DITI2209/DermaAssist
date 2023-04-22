@@ -67,7 +67,7 @@
                         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Add Doctor</h1>
                         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Please fill in the details of the doctor you want to add.</p>
                     </div>
-                    <form id="addDoctorForm" class="flex flex-wrap -m-2">
+                    <form id="addDoctorForm" class="flex flex-wrap -m-2" action="/doctor" method="POST">
                         <div class="p-2 w-full">
                             <div class="relative">
                                 <label for="name" class="leading-7 text-sm text-gray-400">Name</label>
@@ -89,18 +89,18 @@
                         <div class="p-2 w-full flex justify-end">
                             <div class="flex space-x-4">
                                 <button id="clearBtn" class="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Clear</button>
-                                <button id="confirmBtn" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Confirm</button>
+                                <button id="confirmBtn" type="submit" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Confirm</button>
                             </div>
                         </div>
                     </form>
     
                     <!-- Hidden hover box -->
-                    <div id="detailsBox" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black text-white p-6 rounded-md shadow-md hidden">
+                    <!-- <div id="detailsBox" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black text-white p-6 rounded-md shadow-md hidden">
                         <p class="leading-7 text-sm text-gray-400" id="nameDetails"></p>
                         <p class="leading-7 text-sm text-gray-400" id="emailDetails"></p>
                         <p class="leading-7 text-sm text-gray-400" id="contactDetails"></p>
                         <button id="submitButton" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Submit</button>
-                    </div>
+                    </div> -->
                 </div>
             </section>
         </div>
@@ -108,7 +108,7 @@
 
                     </section>
                     
-	<script>
+	<!-- <script>
 		// Add event listener for clear button
 		document.getElementById("clearBtn").addEventListener("click", function(event){
             event.preventDefault();
@@ -156,7 +156,7 @@
 			});
 		}
 	});
-</script>
+</script> -->
 </body>
 </html>
                     
