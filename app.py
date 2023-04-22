@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 import firebase_admin
-from firebase_admin import credentials, auth, storage
+from firebase_admin import credentials, auth, storage, db
 import jinja2
 from datetime import timedelta
 import pyrebase
@@ -36,7 +36,7 @@ config = {
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 storage = firebase.storage()
-
+db=firebase.database()
 
 @app.route('/')
 def index():
@@ -74,7 +74,7 @@ def login():
         
         # If the user was successfully signed in, redirect to the upload page
         if user and not error:
-            return redirect(url_for('upload'))
+            return redirect(url_for('doctor'))
     
     # If the request method is GET, render the login page
     return render_template('login.html')
@@ -101,6 +101,52 @@ def signup():
             flash('Passwords do not match.')
     else:
         return render_template('signup.html')
+    
+@app.route('/doctor', methods=['GET', 'POST'])
+def doctor():
+    if request.method == 'POST':
+        # Get form inputs
+        doctor_name = request.form['name']
+        doctor_email = request.form['email']
+        doctor_phone = request.form['contact']
+        # patient_name = request.form['patient-name']
+        # patient_email = request.form['patient-email']
+
+        # Add data to the database
+        data = {
+            doctor_name: {
+                'name': doctor_name,
+                'email': doctor_email,
+                'phone': doctor_phone
+            }
+        }
+        db.child("doctor").push(data)
+
+        return redirect(url_for('patient'))
+    return render_template('add_doc.html')
+
+@app.route('/patient', methods=['GET', 'POST'])
+def patient():
+    if request.method == 'POST':
+        # Get form inputs
+        patient_name = request.form['pname']
+        patient_email = request.form['pemail']
+        patient_phone = request.form['pcontact']
+        # patient_name = request.form['patient-name']
+        # patient_email = request.form['patient-email']
+
+        # Add data to the database
+        data = {
+            patient_name: {
+                'name': patient_name,
+                'email': patient_email,
+                'phone': patient_phone
+            }
+        }
+        db.child("doctor").child("patient").push(data)
+
+        return redirect(url_for('upload'))
+    return render_template('add_patient.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -169,7 +215,7 @@ def mail():
         client = Client(account_sid, auth_token)
 
             # The phone number you want to send the message to
-        to_number = '+919039831266'
+        to_number = ''
 
             # The Twilio phone number you want to use as the sender
         from_number = '+16205368988'
