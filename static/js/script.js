@@ -21,7 +21,7 @@ $(document).ready(function() {
       $.ajax({
         type: 'POST',
         url: '/submit',
-        data: JSON.stringify(formData),
+        // data: JSON.stringify(formData),
         contentType: 'application/json',
         success: function(response) {
           console.log(response);
