@@ -169,6 +169,31 @@ def patient():
         return redirect(url_for('upload'))
     return render_template('add_patient.html')
 
+@app.route('/patient1', methods=['GET', 'POST'])
+def patient1():
+    if request.method == 'POST':
+        # Get form inputs
+        global patient_name
+        doctor_name = request.form['doctor']
+        patient_name = request.form['pname']
+        patient_email = request.form['pemail']
+        patient_phone = request.form['pcontact']
+        # patient_name = request.form['patient-name']
+        # patient_email = request.form['patient-email']
+
+        # Add data to the database
+        data = {
+            patient_name: {
+                'name': patient_name,
+                'email': patient_email,
+                'phone': patient_phone
+            }
+        }
+        # db.child("doctor").child(doctor_name).child("patient").push(data)
+        # db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set(data)
+        return redirect(url_for('upload'))
+    return render_template('add_patient1.html')
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
