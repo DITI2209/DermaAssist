@@ -88,7 +88,14 @@ def dashboard():
 
 @app.route('/viewdoc', methods=['GET', 'POST'])
 def viewdoc():
-    return render_template('view_doctors.html')
+    doctor = []
+    docs = db.collection('doctor').get()
+    print(docs)
+    for doc in docs:
+        doctorsdictionary = doc.to_dict()
+        doctor.append(doctorsdictionary)
+    print(doctor)
+    return render_template('view_doctors.html', doctor=doctor)
 
 @app.route('/viewpatient', methods=['GET', 'POST'])
 def viewpatient():
@@ -175,7 +182,6 @@ def upload():
             inputimg = inputimg.resize((28, 28))
             img = np.array(inputimg).reshape(-1, 28, 28, 3)
             result = SCD.model.predict(img)
-            db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set({'image':links}, merge=True)
 
             result = result.tolist()
             print(result)
@@ -199,6 +205,7 @@ def upload():
                 info = "Pyogenic granulomas are skin growths that are small, round, and usually bloody red in color. They tend to bleed because they contain a large number of blood vessels. They’re also known as lobular capillary hemangioma or granuloma telangiectaticum."
             elif class_ind == 6:
                 info = "Melanoma, the most serious type of skin cancer, develops in the cells (melanocytes) that produce melanin — the pigment that gives your skin its color. Melanoma can also form in your eyes and, rarely, inside your body, such as in your nose or throat. The exact cause of all melanomas isn't clear, but exposure to ultraviolet (UV) radiation from sunlight or tanning lamps and beds increases your risk of developing melanoma."
+            db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set({'image':links}, merge=True)
 
             return render_template("reults.html", result=result, info=info, links=links)
     return render_template('upload.html')
