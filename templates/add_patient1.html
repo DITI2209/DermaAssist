@@ -69,19 +69,23 @@
                         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Add patient</h1>
                         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Please fill in the details of the patient you want to add.</p>
                     </div>
-                    <form id="addDoctorForm" class="flex flex-wrap -m-2">
+                    <form id="/patient" class="flex flex-wrap -m-2" action="post">
+
                         <div class="p-2 w-full">
                             <div class="relative">
                                 <label for="doctor" class="leading-7 text-sm text-gray-400">Doctor</label>
                                 <select id="doctor" name="doctor" class="appearance-none block w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 py-2 px-4 pr-8 leading-tight focus:border-indigo-500 focus:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-900 text-gray-100 text-base transition-colors duration-200 ease-in-out">
                                     <option disabled selected value="">Choose a doctor</option>
-                                    <option value="Dr. John Smith">Dr. John Smith</option>
-                                    <option value="Dr. Jane Doe">Dr. Jane Doe</option>
-                                    <option value="Dr. David Lee">Dr. David Lee</option>
+                                    {% for i in doclist %}
+                                        {% for key, value in i.items() %}
+                                    <option value="Dr. John Smith">{{value['name']}}</option>
+                                        {% endfor %}
+                                    {% endfor %}
                                 </select>
                                 <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                                    
+
                                 </div>
+
                             </div>
                         </div>
 

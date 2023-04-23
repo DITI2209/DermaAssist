@@ -97,14 +97,15 @@ def viewdoc():
     print(doctor)
     return render_template('view_doctors.html', doctor=doctor)
 
-@app.route('/viewpatient', methods=['GET', 'POST'])
-def viewpatient():
-    return render_template('view_patients.html')
+# @app.route('/viewpatient', methods=['GET', 'POST'])
+# def viewpatient():
+#     return render_template('view_patients.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         email = request.form['email']
+        
         password = request.form['password']
         confirm_password = request.form['confirm_password']
         if password == confirm_password:
@@ -190,8 +191,19 @@ def patient1():
             }
         }
         # db.child("doctor").child(doctor_name).child("patient").push(data)
-        # db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set(data)
+        db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set(data)
+
         return redirect(url_for('upload'))
+    n=0
+    if n==0:
+        doclist=[]
+        doct=db.collection('doctor').get()
+        for i in doct:
+            doctors=i.to_dict()
+            doclist.append(doctors)
+        return render_template('add_patient1.html', doclist=doclist)
+
+        
     return render_template('add_patient1.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
