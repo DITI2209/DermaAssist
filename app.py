@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import firebase_admin
-from firebase_admin import credentials, auth, storage, db
+from firebase_admin import credentials, auth, storage
+from firebase_admin import firestore
 import jinja2
 from datetime import timedelta
 import pyrebase
@@ -32,11 +33,13 @@ config = {
   "appId": "1:588321601903:web:e072797fc9189e9465d09a",
   "measurementId": "G-04938M5W17"
 }
+cred = credentials.Certificate("serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
 
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 storage = firebase.storage()
-db=firebase.database()
+db = firestore.client()
 
 @app.route('/')
 def index():
@@ -74,14 +77,22 @@ def login():
         
         # If the user was successfully signed in, redirect to the upload page
         if user and not error:
-            return redirect(url_for('doctor'))
+            return render_template('dashboard.html')
     
     # If the request method is GET, render the login page
     return render_template('login.html')
 
-# @app.route('/login1')
-# def login1():
-#     return render_template("login.html")
+@app.route('/dashboard')
+def dashboard():
+    return render_template("dashboard.html")
+
+@app.route('/viewdoc', methods=['GET', 'POST'])
+def viewdoc():
+    return render_template('view_doctors.html')
+
+@app.route('/viewpatient', methods=['GET', 'POST'])
+def viewpatient():
+    return render_template('view_patients.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -92,7 +103,7 @@ def signup():
         if password == confirm_password:
             user = auth.create_user_with_email_and_password(email, password)
             # Redirect to the dashboard or homepage
-            return redirect(url_for('login'))
+            return render_template('login.html')
         elif auth.get_user_by_email(email) is not None:
             # Handle email already exists error
             flash('Email already exists.')
@@ -106,13 +117,14 @@ def signup():
 def doctor():
     if request.method == 'POST':
         # Get form inputs
+        global doctor_name
         doctor_name = request.form['name']
         doctor_email = request.form['email']
         doctor_phone = request.form['contact']
         # patient_name = request.form['patient-name']
         # patient_email = request.form['patient-email']
 
-        # Add data to the database
+        # # Add data to the database
         data = {
             doctor_name: {
                 'name': doctor_name,
@@ -120,7 +132,8 @@ def doctor():
                 'phone': doctor_phone
             }
         }
-        db.child("doctor").push(data)
+        # db.child("doctor").push(data)
+        db.collection('doctor').document(doctor_name).set(data)
 
         return redirect(url_for('patient'))
     return render_template('add_doc.html')
@@ -129,6 +142,7 @@ def doctor():
 def patient():
     if request.method == 'POST':
         # Get form inputs
+        global patient_name
         patient_name = request.form['pname']
         patient_email = request.form['pemail']
         patient_phone = request.form['pcontact']
@@ -143,8 +157,8 @@ def patient():
                 'phone': patient_phone
             }
         }
-        db.child("doctor").child("patient").push(data)
-
+        # db.child("doctor").child(doctor_name).child("patient").push(data)
+        db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set(data)
         return redirect(url_for('upload'))
     return render_template('add_patient.html')
 
@@ -161,6 +175,7 @@ def upload():
             inputimg = inputimg.resize((28, 28))
             img = np.array(inputimg).reshape(-1, 28, 28, 3)
             result = SCD.model.predict(img)
+            db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set({'image':links}, merge=True)
 
             result = result.tolist()
             print(result)
