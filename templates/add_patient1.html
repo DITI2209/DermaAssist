@@ -69,7 +69,7 @@
                         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Add patient</h1>
                         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Please fill in the details of the patient you want to add.</p>
                     </div>
-                    <form id="/patient" class="flex flex-wrap -m-2" action="post">
+                    <form action="/patient1" class="flex flex-wrap -m-2" method="post">
 
                         <div class="p-2 w-full">
                             <div class="relative">
@@ -92,25 +92,25 @@
                         <div class="p-2 w-full">
                             <div class="relative">
                                 <label for="name" class="leading-7 text-sm text-gray-400">Name</label>
-                                <input type="text" id="name" name="name" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                <input type="text" id="name" name="pname" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             </div>
                         </div>
                         <div class="p-2 w-full">
                             <div class="relative">
                                 <label for="email" class="leading-7 text-sm text-gray-400">Email</label>
-                                <input type="email" id="email" name="email" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                <input type="email" id="email" name="pemail" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             </div>
                         </div>
                         <div class="p-2 w-full">
                             <div class="relative">
                                 <label for="contact" class="leading-7 text-sm text-gray-400">Contact Number</label>
-                                <input type="text" id="contact" name="contact" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                <input type="text" id="contact" name="pcontact" class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             </div>
                         </div>
                         <div class="p-2 w-full flex justify-end">
                             <div class="flex space-x-4">
                                 <button id="clearBtn" class="text-white bg-red-500 border-0 py-2 px-8 focus:outline-none hover:bg-red-600 rounded text-lg">Clear</button>
-                                <button id="confirmBtn" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Confirm</button>
+                                <button id="confirmBtn" type='submit' class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Confirm</button>
                             </div>
                         </div>
                     </form>
@@ -146,8 +146,8 @@
             });
 
     	// Add event listener for confirm button
-	document.getElementById("confirmBtn").addEventListener("click", function(event){
-		event.preventDefault();
+	// document.getElementById("confirmBtn").addEventListener("click", function(event){
+	// 	event.preventDefault();
 
 		// Get form input values
 		let name = document.getElementById("name").value;
