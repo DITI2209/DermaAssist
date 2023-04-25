@@ -49,19 +49,25 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
+        global path_email
+        path_email = request.form['email']
         password = request.form['password']
         user = None
         
         # Attempt to sign in with the given email and password
         error = False
-        if not email or not password:
+        if not path_email or not password:
             error = True
             flash('Please enter your email and password.')
         else:
             try:
-                user = auth.sign_in_with_email_and_password(email, password)
+                user = auth.sign_in_with_email_and_password(path_email, password)
                 # session['user'] = email
+                # user1 = auth.get_user_by_email(email)
+                # id_token = user1.id_token
+
+                # store user ID token in Flask session
+                # session['firebase_user_token'] = id_token
             except auth.AuthError as e:
                 # Handle any authentication errors
                 error_code = e.detail.get('code')
@@ -81,6 +87,12 @@ def login():
     
     # If the request method is GET, render the login page
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    auth.logout()
+    return redirect(url_for('index'))
 
 @app.route('/dashboard')
 def dashboard():
@@ -105,11 +117,21 @@ def viewdoc():
 def signup():
     if request.method == 'POST':
         email = request.form['email']
-        
+        global first_name, last_name
+        first_name=request.form['first_name']
+        last_name=request.form['last_name']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
+        data={
+            first_name: {
+                'First Name': first_name,
+                'Email': email,
+                'Last Name': last_name
+            }
+        }
         if password == confirm_password:
             user = auth.create_user_with_email_and_password(email, password)
+            db.collection('pathologist').document(first_name).set(data)
             # Redirect to the dashboard or homepage
             return render_template('login.html')
         elif auth.get_user_by_email(email) is not None:
@@ -174,7 +196,7 @@ def patient():
 def patient1():
     if request.method == 'POST':
         # Get form inputs
-        global patient_name
+        global patient_name, patient_email, patient_phone
         doctor_name = request.form['doctor']
         patient_name = request.form['pname']
         patient_email = request.form['pemail']
@@ -212,6 +234,7 @@ def upload():
         global file
         file = request.files['pic']
         if file:
+            global result
             # Upload the file to Firebase Storage
             storage.child("images/"+file.filename).put(file)
             links=storage.child("images/"+file.filename).get_url(None)
@@ -226,7 +249,7 @@ def upload():
             class_ind = result[0].index(max_prob)
             print(class_ind)
             result = SCD.classes[class_ind]
-
+            # db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set({'image':links}, merge=True)
             if class_ind == 0:
                 info = "Actinic keratosis also known as solar keratosis or senile keratosis are names given to intraepithelial keratinocyte dysplasia. As such they are a pre-malignant lesion or in situ squamous cell carcinomas and thus a malignant lesion."
 
@@ -242,16 +265,40 @@ def upload():
                 info = "Pyogenic granulomas are skin growths that are small, round, and usually bloody red in color. They tend to bleed because they contain a large number of blood vessels. They’re also known as lobular capillary hemangioma or granuloma telangiectaticum."
             elif class_ind == 6:
                 info = "Melanoma, the most serious type of skin cancer, develops in the cells (melanocytes) that produce melanin — the pigment that gives your skin its color. Melanoma can also form in your eyes and, rarely, inside your body, such as in your nose or throat. The exact cause of all melanomas isn't clear, but exposure to ultraviolet (UV) radiation from sunlight or tanning lamps and beds increases your risk of developing melanoma."
-            db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set({'image':links}, merge=True)
+            
 
             return render_template("reults.html", result=result, info=info, links=links)
     return render_template('upload.html')
 
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+        # id_token = session['firebase_user_token']
+        # decoded_token = auth.verify_id_token(id_token)
+        # email = decoded_token['email']
+        paths = db.collection('pathologist').get()
+        patho=[]
+        for path in paths:
+            pathsdictionary = path.to_dict()
+            patho.append(pathsdictionary)
+        print(patho)
+        collection_ref = db.collection('pathologist')
+
+# Filter the collection by email
+        query = collection_ref.where('Email', '==', path_email)
+        records = query.get()
+        record = records[0].to_dict()
+        first_name = record.get('First Name')
+        last_name = record.get('Last Name')
+
+
+        return render_template('path_profile.html', path_email=path_email, first_name=first_name, last_name=last_name, result=result)
+
 @app.route('/report', methods=['GET', 'POST'])
 def report():
     if request.method == 'POST':
+        
         return render_template('mail.html')
-    return render_template('report.html')
+    return render_template('report.html', patient_name=patient_name,  patient_email=patient_email, patient_phone=patient_phone, result=result)
 
 newwebpage = os.path.join(os.getcwd(), "newwebpage.pdf")
 

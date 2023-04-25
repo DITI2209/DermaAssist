@@ -27,11 +27,9 @@ body {
   }
   #pdf {
     display: block;
-    margin: 20px auto;
   }
   #printBtn {
     display: block;
-    margin: 20px auto;
   }
   @media print {
     #printBtn {
