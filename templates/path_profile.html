@@ -32,10 +32,10 @@
 				<a class="mr-5 hover:text-white">Third Link</a>
 				<a class="mr-5 hover:text-white">Fourth Link</a>
 			</nav>
-			<button class="inline-flex items-center bg-gray-800 border-0 py-1 px-4 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
+			<a href="{{ url_for('logout') }}" class="inline-flex items-center bg-gray-800 border-0 py-1 px-4 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">
         Logout
         <i class="fa fa-power-off ml-2" style="color: #919191;" aria-hidden="true"></i>  
-      </button>
+			</a>
 	</header>
 
 	<!-- grid -->
@@ -48,7 +48,7 @@
         </span>
       </div>
 			<div class="w-full lg:w-2/3">
-				<h2 class="text-3xl font-semibold text-gray-300 mb-2" id="name">Dr. Jenna Stones</h2>
+				<h2 class="text-3xl font-semibold text-gray-300 mb-2" id="name">{{first_name}} {{last_name}}</h2>
 				<p class="text-xl font-medium text-gray-400 mb-4">Pathologist</p>
 				<div class="flex flex-wrap mb-4">
 					<div class="w-full lg:w-1/2 mb-4 lg:mb-0">
@@ -56,15 +56,15 @@
 						<p class="text-gray-300">Jupiter Hospital</p>
 					</div>
 				</div>
-				<div class="flex flex-wrap">
+				<!-- <div class="flex flex-wrap">
 					<div class="w-full lg:w-1/2 mb-4 lg:mb-0">
 						<p class="text-gray-500 font-bold mb-2">Phone</p>
 						<p class="text-gray-300">+61 123 456 789</p>
 					</div>
-        </div>
+        </div> -->
 					<div class="w-full lg:w-1/2">
 						<p class="text-gray-500 font-bold mb-2">Email</p>
-						<p class="text-gray-300" id="email">jenna.stones@jupiterhospital.com</p>
+						<p class="text-gray-300" id="email">{{path_email}}</p>
 					</div>
 				</div>
 			</div>
