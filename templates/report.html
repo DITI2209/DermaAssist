@@ -6,9 +6,29 @@
 	<!-- Load Tailwind CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
 	<link rel="stylesheet" href="/static/css/style.css">
-	<style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.20.0/firebase-storage-compat.js"></script>
+	<script type="module">
 		
-	</style>
+	import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js';
+	import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.20.0/firebase-storage.js'; 
+	const firebaseConfig = {
+    apiKey: "AIzaSyAR0XBuGC2yywq-q1DfQKfLl26LKk6l9K8",
+    authDomain: "fir-try-28f01.firebaseapp.com",
+    databaseURL: "https://fir-try-28f01-default-rtdb.firebaseio.com",
+    projectId: "fir-try-28f01",
+    storageBucket: "fir-try-28f01.appspot.com",
+    messagingSenderId: "588321601903",
+    appId: "1:588321601903:web:e072797fc9189e9465d09a",
+    measurementId: "G-04938M5W17"
+  };
+	const app = initializeApp(firebaseConfig);
+// Initialize Cloud Storage and get a reference to the service
+	const storage = getStorage(app);
+	</script>
+	<!-- <script src="/static/js/script.js"></script> -->
+	
 </head>
 <body class = "bg-gray-900">
 	<!-- header -->
@@ -107,52 +127,48 @@
 				<button id="pdf" type='submit'class="py-2 px-4 text-white bg-gray-800 hover:bg-gray-700 rounded mr-2">
 					Generate PDF
 				</button>
-				<button id="printBtn"class="py-2 px-4 text-white bg-indigo-500 hover:bg-indigo-600 rounded">
+				<button class="py-2 px-4 text-white bg-indigo-500 hover:bg-indigo-600 rounded">
 					Mail PDF
 				</button>
 			</div>
 </div>
-
 <script>
+	// Add event listener to the button
 	document.getElementById('pdf').addEventListener('click', function() {
-	    window.print(); // Generate a PDF of the current webpage
-        setTimeout(function() {
-          var pdf = new jsPDF();
-          document.getElementById('pdf').style.display = 'none';
-          document.getElementById('printBtn').style.display = 'none';
-          pdf.addHTML(document.body, function() {
-            var blob = pdf.output('blob'); // Convert the PDF to a Blob
-            var storageRef = firebase.storage().ref();
-            var uploadTask = storageRef.child('reports/newwebpage.pdf').put(blob); // Upload the PDF to Firebase Storage
-            uploadTask.on('state_changed', function(snapshot) {
-              // Handle progress events
-            }, function(error) {
-              // Handle errors
-            }, function() {
-              // Handle successful upload
-              console.log('PDF file uploaded to Firebase Storage');
+		// Use jsPDF to convert window.print() result to PDF
+		var doc = new jsPDF();
+		doc.addHTML(document.body, function() {
+			// Create a reference to Firebase Storage location
+			const storageRef = ref(storage, 'reports/newwebpage.pdf');
 
-            });
-          });
-        }, 500); // Wait 500 milliseconds to allow the PDF to be generated
-      });
+			// Convert PDF to blob
+			var blob = doc.output('blob');
 
-
-	 const canvas = document.getElementById('signatureCanvas');
-	const ctx = canvas.getContext('2d');
-  
-	canvas.width = canvas.parentElement.clientWidth;
-	canvas.height = canvas.parentElement.clientHeight;
-  
-	const clearButton = document.getElementById('clearButton');
-	clearButton.addEventListener('click', () => {
-	  ctx.clearRect(0, 0, canvas.width, canvas.height);
+			// Upload blob to Firebase Storage
+			uploadBytes(storageRef, blob).then(function(snapshot) {
+				console.log('PDF uploaded successfully!');
+			}).catch(function(error) {
+				console.error('Error uploading PDF: ', error);
+			});
+		});
 	});
+</script>
+<script>
+const canvas = document.getElementById('signatureCanvas');
+const ctx = canvas.getContext('2d');
   
-	let isDrawing = false;
-	let lastX, lastY;
+canvas.width = canvas.parentElement.clientWidth;
+canvas.height = canvas.parentElement.clientHeight;
   
-	canvas.addEventListener('mousedown', (e) => {
+const clearButton = document.getElementById('clearButton');
+clearButton.addEventListener('click', () => {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+  
+let isDrawing = false;
+let lastX, lastY;
+  
+canvas.addEventListener('mousedown', (e) => {
 	  isDrawing = true;
 	  [lastX, lastY] = [e.offsetX, e.offsetY];
 	});
@@ -175,9 +191,8 @@
 	  isDrawing = false;
 	});
     </script>
-<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-storage.js"></script>
-<script>
+
+<!-- <script>
 	var firebaseConfig = {
   "apiKey": "AIzaSyAR0XBuGC2yywq-q1DfQKfLl26LKk6l9K8",
   "authDomain": "fir-try-28f01.firebaseapp.com",
@@ -189,8 +204,8 @@
   "measurementId": "G-04938M5W17"
 	};
 	firebase.initializeApp(firebaseConfig);
-</script>
-
+</script> -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
 </body>
 </html>
