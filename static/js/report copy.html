@@ -115,7 +115,6 @@
 	</div>
 	<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-storage.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 		<script>
 		// Add event listener to the button
 		var firebaseConfig = {
@@ -129,18 +128,18 @@
 		"measurementId": "G-04938M5W17"
 			};
 			firebase.initializeApp(firebaseConfig);
-		const fun = (ele) =>{	
+			const fun = (ele) =>{	
 			console.log(firebase.storage())
-			var backgroundColor = '#FFFFFF'; // Set the desired background color
-  var originalBackgroundColor = document.body.style.backgroundColor; // Store the original background color
+// 			var backgroundColor = '#FFFFFF'; // Set the desired background color
+//   			var originalBackgroundColor = document.body.style.backgroundColor; // Store the original background color
 
-  // Set the background color of the page to the desired color
-  document.body.style.backgroundColor = backgroundColor;
+//   // Set the background color of the page to the desired color
+//   document.body.style.backgroundColor = backgroundColor;
 			// window.print(); // Generate a PDF of the current webpage
 			// document.getElementById('pdf').style.display = 'none';
 			//   document.getElementById('printBtn').style.display = 'none';
 			// window.print()
-			const myDoc = document.body.innerHTML
+			const myDoc = document
 			const doc = new jsPDF();
 			console.log(myDoc)
 			// doc.html(document.body, {
@@ -148,24 +147,24 @@
 			// 	doc.save();
 			// 		}
 			// 	});
-			// setTimeout(()=>{
-			// 	doc.addHTML(myDoc, function(ele) {
-			// 	var blob = doc.output('blob'); // Convert the PDF to a Blob
-			// 	console.log(blob)
-			// 	var storageRef = firebase.storage().ref();
-			// 	var uploadTask = storageRef.child('reports/newwebpage.pdf').put(blob); // Upload the PDF to Firebase Storage
-			// 	// uploadTask.on('state_changed', function(snapshot) {
-			// 	//   // Handle progress events
-			// 	// }, function(error) {
-			// 	//   // Handle errors
-			// 	// }, function() {
-			// 	//   // Handle successful upload
-			// 	//   console.log('PDF file uploaded to Firebase Storage');
+			setTimeout(()=>{
+				doc.addHTML(myDoc, function(ele) {
+				var blob = doc.output('blob'); // Convert the PDF to a Blob
+				console.log(blob)
+				var storageRef = firebase.storage().ref();
+				var uploadTask = storageRef.child('reports/newwebpage.pdf').put(blob); // Upload the PDF to Firebase Storage
+				// uploadTask.on('state_changed', function(snapshot) {
+				//   // Handle progress events
+				// }, function(error) {
+				//   // Handle errors
+				// }, function() {
+				//   // Handle successful upload
+				//   console.log('PDF file uploaded to Firebase Storage');
 
-			// 	// });
-			// });
+				// });
+			});
 			
-			// },4000)
+			},4000)
 			
 			return false
 		}
@@ -190,7 +189,7 @@
 		// 	});
 		// });
 	</script>
-	<script>
+	<!-- <script>
 	const canvas = document.getElementById('signatureCanvas');
 	const ctx = canvas.getContext('2d');
 	
@@ -227,7 +226,7 @@
 		canvas.addEventListener('mouseout', () => {
 		isDrawing = false;
 		});
-		</script>
+		</script> -->
 
 	<!-- <script>
 		var firebaseConfig = {
