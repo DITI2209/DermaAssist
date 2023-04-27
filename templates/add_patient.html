@@ -36,17 +36,17 @@
     <!-- header -->
     <header class="text-gray-400 bg-gray-900 body-font">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-          <a class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+          <a onclick = "window.location.href='/doctor'" class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
             </svg>
             <span class="ml-3 text-xl">DermaAssist</span>
           </a>
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            <a class="mr-5 hover:text-white">Home</a>
-            <a class="mr-5 hover:text-white">Profile</a>
+            <a href = "/dashboard" class="mr-5 hover:text-white">Home</a>
+            <a href = "/profile" class="mr-5 hover:text-white">Profile</a>
           </nav>
-          <button class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Logout
+          <button onclick = "window.location.href='/'"onclick = "window.location.href='/'" class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Logout
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
               <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>
@@ -109,55 +109,6 @@
 
                     </section>
                     
-	<!-- <script>
-		// Add event listener for clear button
-		document.getElementById("clearBtn").addEventListener("click", function(event){
-            event.preventDefault();
-            document.getElementById("addDoctorForm").reset();
-            });
-
-    	// Add event listener for confirm button
-	document.getElementById("confirmBtn").addEventListener("click", function(event){
-		event.preventDefault();
-
-		// Get form input values
-		let name = document.getElementById("name").value;
-		let email = document.getElementById("email").value;
-		let contact = document.getElementById("contact").value;
-
-		// Check if input fields are not empty
-		if(name.trim() === "" || email.trim() === "" || contact.trim() === ""){
-			alert("Please fill in all the fields.");
-		}
-		else{
-			// Create a new doctor object with the input values
-			let doctor = {
-				name: name,
-				email: email,
-				contact: contact
-			};
-
-			// Display the hover box with the doctor's details
-			document.getElementById("nameDetails").textContent = `Name: ${doctor.name}`;
-			document.getElementById("emailDetails").textContent = `Email: ${doctor.email}`;
-			document.getElementById("contactDetails").textContent = `Contact: ${doctor.contact}`;
-			document.getElementById("detailsBox").style.display = "block";
-
-			// Add event listener for submit button in the hover box
-			document.getElementById("submitButton").addEventListener("click", function(event){
-				event.preventDefault();
-
-				
-
-				// Hide the hover box
-				document.getElementById("detailsBox").style.display = "none";
-
-				// Clear the form inputs
-				document.getElementById("addDoctorForm").reset();
-			});
-		}
-	});
-</script> -->
 </body>
 </html>
                     

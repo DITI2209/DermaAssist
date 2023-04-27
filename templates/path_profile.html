@@ -20,15 +20,15 @@
 	<!-- header -->
 	<header class="text-gray-400 bg-gray-900 body-font">
 		<div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-			<a class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+			<a onclick = "window.location.href='/dashboard'"class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
 					<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
 				</svg>
 				<span class="ml-3 text-xl">DermaAssist</span>
 			</a>
 			<nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-				<a class="mr-5 hover:text-white">Home</a>
-				<a class="mr-5 hover:text-white">Profile</a>
+				<a href = "/dashboard" class="mr-5 hover:text-white">Home</a>
+				<a href = "/profile" class="mr-5 hover:text-white">Profile</a>
 				
 				
 			</nav>
@@ -56,12 +56,6 @@
 						<p class="text-gray-300">Jupiter Hospital</p>
 					</div>
 				</div>
-				<!-- <div class="flex flex-wrap">
-					<div class="w-full lg:w-1/2 mb-4 lg:mb-0">
-						<p class="text-gray-500 font-bold mb-2">Phone</p>
-						<p class="text-gray-300">+61 123 456 789</p>
-					</div>
-        </div> -->
 					<div class="w-full lg:w-1/2">
 						<p class="text-gray-500 font-bold mb-2">Email</p>
 						<p class="text-gray-300" id="email">{{path_email}}</p>

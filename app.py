@@ -45,6 +45,9 @@ db = firestore.client()
 def index():
     return render_template('index.html')
 
+@app.route('/getstarted', methods = ['GET', 'POST'])
+def getstarted():
+    return render_template('login.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -109,10 +112,6 @@ def viewdoc():
     print(doctor)
     return render_template('view_doctors.html', doctor=doctor)
 
-# @app.route('/viewpatient', methods=['GET', 'POST'])
-# def viewpatient():
-#     return render_template('view_patients.html')
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -151,9 +150,6 @@ def doctor():
         doctor_name = request.form['name']
         doctor_email = request.form['email']
         doctor_phone = request.form['contact']
-        # patient_name = request.form['patient-name']
-        # patient_email = request.form['patient-email']
-
         # # Add data to the database
         data = {
             doctor_name: {
@@ -162,7 +158,6 @@ def doctor():
                 'phone': doctor_phone
             }
         }
-        # db.child("doctor").push(data)
         db.collection('doctor').document(doctor_name).set(data)
 
         return redirect(url_for('patient1'))
@@ -204,8 +199,6 @@ def patient1():
         patient_name = request.form['pname']
         patient_email = request.form['pemail']
         patient_phone = request.form['pcontact']
-        # patient_name = request.form['patient-name']
-        # patient_email = request.form['patient-email']
 
         # Add data to the database
         data = {
@@ -216,7 +209,6 @@ def patient1():
             }
         }
         print(data)
-        # db.child("doctor").child(doctor_name).child("patient").push(data)
         db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set(data)
     
         return redirect(url_for('upload'))
@@ -293,7 +285,6 @@ def profile():
         record = records[0].to_dict()
         first_name = record.get('First Name')
         last_name = record.get('Last Name')
-
 
         return render_template('path_profile.html', path_email=path_email, first_name=first_name, last_name=last_name, result=result)
 
