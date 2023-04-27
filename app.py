@@ -195,6 +195,7 @@ def doctor():
 @app.route('/patient1', methods=['GET', 'POST'])
 def patient1():
     if request.method == 'POST':
+        print(request.form)
         # Get form inputs
         global patient_name
         global patient_email 
@@ -214,9 +215,10 @@ def patient1():
                 'phone': patient_phone
             }
         }
+        print(data)
         # db.child("doctor").child(doctor_name).child("patient").push(data)
         db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set(data)
-
+    
         return redirect(url_for('upload'))
     n=0
     if n==0:
@@ -228,7 +230,7 @@ def patient1():
         return render_template('add_patient1.html', doclist=doclist)
 
         
-    return render_template('add_patient1.html')
+    # return render_template('add_patient1.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():

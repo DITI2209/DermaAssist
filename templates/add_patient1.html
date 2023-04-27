@@ -79,7 +79,7 @@
                                     <option disabled selected value="">Choose a doctor</option>
                                     {% for i in doclist %}
                                         {% for key, value in i.items() %}
-                                    <option value="Dr. John Smith">{{value['name']}}</option>
+                                    <option value="{{value['name']}}">{{value['name']}}</option>
                                         {% endfor %}
                                     {% endfor %}
                                 </select>
@@ -115,7 +115,13 @@
                             </div>
                         </div>
                     </form>
-    
+                    <script>
+                       const form =  document.getElementById('addDoctorForm')
+                       form.addEventListener('onsubmit',(ele)=>{
+                        ele.preventDefault()
+                            console.log(ele.target)
+                       })
+                    </script>
                     <!-- Hidden hover box -->
                     <!-- <div id="detailsBox" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-900 text-white p-8 rounded-md shadow-lg hidden">
                         <button class="absolute top-2 right-2 text-lg text-white hover:text-gray-300 focus:outline-none">×</button>
