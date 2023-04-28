@@ -27,9 +27,13 @@ body {
   }
   #pdf {
     display: block;
+    margin-left: 1100px;
+    margin-top: 0px;
   }
   #printBtn {
     display: block;
+    margin-left: 1100px;
+    margin-top: 70px;
   }
   @media print {
     #printBtn {

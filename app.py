@@ -147,6 +147,7 @@ def doctor():
     if request.method == 'POST':
         # Get form inputs
         global doctor_name
+        global doctor_phone
         doctor_name = request.form['name']
         doctor_email = request.form['email']
         doctor_phone = request.form['contact']
@@ -286,7 +287,7 @@ def profile():
         first_name = record.get('First Name')
         last_name = record.get('Last Name')
 
-        return render_template('path_profile.html', path_email=path_email, first_name=first_name, last_name=last_name, result=result)
+        return render_template('path_profile.html', path_email=path_email, first_name=first_name, last_name=last_name)
 
 @app.route('/report', methods=['GET', 'POST'])
 def report():
@@ -300,20 +301,21 @@ newwebpage = os.path.join(os.getcwd(), "newwebpage.pdf")
 @app.route('/mail', methods=['GET', 'POST'])
 def mail():
     if request.method == 'POST':
+        given_phone = request.form['given_phone']
         password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
         # password = request.form['pass']
-        pdf_ref = storage.child("reports/newwebpage.pdf").download(filename="newwebpage.pdf")
+        pdf_ref = storage.child("reports/newwebpage.pdf").download(filename="newwebpage.pdf", path=".")
 
         
         # Your Twilio account SID and auth token
-        account_sid = 'AC14a03bed9ac15b6290d1e92b2ece8670'
-        auth_token = '3a79148435f2ab08402fd7e38ea55cd6'
+        account_sid = "AC14a03bed9ac15b6290d1e92b2ece8670"
+        auth_token = "4e802b9f430cad6be1477c047c1ed77e"
 
             # Create a Twilio client
         client = Client(account_sid, auth_token)
 
             # The phone number you want to send the message to
-        to_number = ''
+        to_number = given_phone
 
             # The Twilio phone number you want to use as the sender
         from_number = '+16205368988'
@@ -370,7 +372,7 @@ def mail():
 
         return render_template('final.html')
 
-    return render_template('mail.html')
+    return render_template('mail.html', result=result)
 
 @app.route('/final', methods=['GET', 'POST'])
 def final():
