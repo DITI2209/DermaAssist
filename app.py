@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session
 import firebase_admin
 from firebase_admin import credentials, auth, storage
 from firebase_admin import firestore
@@ -40,6 +40,7 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 storage = firebase.storage()
 db = firestore.client()
+app.secret_key = 'abc'
 
 @app.route('/')
 def index():
@@ -130,6 +131,7 @@ def signup():
 @app.route('/doctor', methods = ['GET', 'POST'])
 def doctor():
     if request.method == 'POST':
+        
         global doctor_name
         global doctor_phone
         doctor_name = request.form['name']
@@ -143,6 +145,9 @@ def doctor():
             }
         }
         db.collection('doctor').document(doctor_name).set(data)
+        session['doctor_name']= doctor_name
+        session['doctor_email']= doctor_email
+        session['doctor_phone']=doctor_phone
         return redirect(url_for('patient1'))
     return render_template('add_doc.html')
 
@@ -165,6 +170,10 @@ def patient1():
             }
         }
         db.collection('doctor').document(doctor_name).collection('patient').document(patient_name).set(data)
+        session['doctor_name']= doctor_name
+        session['patient_name']= patient_name
+        session['patient_email']= patient_email
+        session['patient_phone']=patient_phone
         return redirect(url_for('upload'))
     n = 0
     if n == 0:
@@ -208,7 +217,7 @@ def upload():
                 info = "Pyogenic granulomas are skin growths that are small, round, and usually bloody red in color. They tend to bleed because they contain a large number of blood vessels. They’re also known as lobular capillary hemangioma or granuloma telangiectaticum."
             elif class_ind == 6:
                 info = "Melanoma, the most serious type of skin cancer, develops in the cells (melanocytes) that produce melanin — the pigment that gives your skin its color. Melanoma can also form in your eyes and, rarely, inside your body, such as in your nose or throat. The exact cause of all melanomas isn't clear, but exposure to ultraviolet (UV) radiation from sunlight or tanning lamps and beds increases your risk of developing melanoma."
-            
+            session['result']=result
             return render_template("reults.html", result=result, info=info, links=links)
     return render_template('upload.html')
 
@@ -227,14 +236,23 @@ def profile():
         record = records[0].to_dict()
         first_name = record.get('First Name')
         last_name = record.get('Last Name')
-
+        session['first_name']=first_name
+        session['last_name']=last_name
         return render_template('path_profile.html', path_email=path_email, first_name=first_name, last_name=last_name)
 
 @app.route('/report', methods = ['GET', 'POST'])
 def report():
+    patient_name = session.get('patient_name')
+    patient_email=session.get('patient_email')
+    patient_phone=session.get('patient_phone')
+    first_name=session.get('first_name')
+    last_name=session.get('last_name')
+    result=session.get('result')
+    
     if request.method == 'POST':
+
         return render_template('mail.html')
-    return render_template('report.html', patient_name=patient_name,  patient_email=patient_email, patient_phone=patient_phone, result=result)
+    return render_template('report.html', patient_name=patient_name,  patient_email=patient_email, patient_phone=patient_phone, result=result, first_name=first_name, last_name=last_name)
 
 newwebpage = os.path.join(os.getcwd(), "newwebpage.pdf")
 
@@ -246,14 +264,14 @@ def mail():
         pdf_ref = storage.child("reports/newwebpage.pdf").download(filename = "newwebpage.pdf", path = ".")
 
         # Your Twilio account SID and auth token
-        account_sid = "AC14a03bed9ac15b6290d1e92b2ece8670"
-        auth_token = "4e802b9f430cad6be1477c047c1ed77e"
-
+        account_sid = "."
+        auth_token = "."
+        doctor_phone=session.get('patient_phone')
         # Create a Twilio client
         client = Client(account_sid, auth_token)
-
+        
         # The phone number you want to send the message to
-        to_number = given_phone
+        to_number = doctor_phone
 
         # The Twilio phone number you want to use as the sender
         from_number = '+16205368988'
