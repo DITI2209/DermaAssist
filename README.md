@@ -1,70 +1,86 @@
-# DermaAssist-firebase
+# DermaAssist: An automated classification system for detection of skin cancer using ML 
 
-As our third-year mini project, we have created a skin cancer classification system using Deep Learning. 
 
 ## Table of Contents
-- [Table of Contents](#table-of-contents)
-- [Usage](#usage)
-  - [Installation](#installation)
-  - [Navigation](#navigation)
+- [Scope](#scope)
+- [Technology Stack](#technology-stack)
+- [Features](#features)
+- [Installation](#installation)
 - [Team](#team)
-  - [Mentors:](#mentors)
-  - [Members:](#members)
+
+## Scope
+
+The scope of this project is to develop a comprehensive skin lesion disease detection system that can accurately diagnose skin diseases with the help of CNN, supporting clinical decision-making by providing pathologists with the highest probability diagnoses. The system will use image processing techniques to analyse skin images and provide pathologists with an accurate diagnosis in a timely manner. The system will be able to differentiate between various types of skin lesions, including cancerous and non-cancerous lesions.
+
+The system will also enable pathologists to generate medical reports based on the diagnosis, which will include all relevant information about the patient's condition. It will also include a database to store patient data and medical reports.
+
+Data security and confidentiality are paramount in the healthcare industry, and the system will employ advanced security measures to ensure the secure transfer of medical data. The system will include a secure method for medical data transfer, where encrypted diagnostic reports will be mailed to the doctors and the password for the encrypted report will be sent to the doctors' phone, ensuring that the data remains secure and confidential. 
+
+The project will involve developing a user-friendly interface for pathologists to navigate, allowing them a streamlined and efficient way to diagnose skin diseases and generate medical reports. The system will be designed to be scalable and adaptable, allowing for future updates and additions to the system to incorporate new features and functions as needed.
+
+The scope of the project is limited to the development of the skin lesion disease detection system for a hospital and does not extend to the treatment or management of patient records/medical history. The system will be a tool to aid pathologists in diagnosing skin diseases but will not replace the expertise and judgment of medical professionals.
+
+## Technology Stack
+
+• HTML5
+
+• TailwindCSS
+
+• JavaScript
+
+• Python
+
+• Flask
+
+• Firebase 
+
+• Twilio : Communication API
+
+• Figma for UI design
+
+• Canva for logo
+
+## Features
+
+• **Pathologist Registration:** The system should allow pathologists to register for an account to access the system.  
+
+• **Upload Image:** The system should allow pathologists to upload an image of a skin lesion to the system.
+
+• **Process Image:** The system should use a CNN model to process the uploaded image and detect any skin lesions.
+
+• **Diagnosis:** The system should provide a diagnosis based on the skin lesion detection result. 
+
+• **Medical Report Generation:** The system should generate a medical report for the user based on the diagnosis.
+
+• **Report Customization:** The system should allow pathologists to customize the format of medical reports based on their requirements.
+
+• **Store Medical Reports:** The system should store the medical reports in a Firebase database.
+
+• **Encrypted Reports:** The system should generate password-protected diagnostic reports that can only be accessed by authorized healthcare professionals with the right credentials.
+
+• **Secure Communication:** The system should use secure communication protocols to send the password to authorized healthcare professionals’ mobile devices, including SMS, email or push notifications.
 
 
-## Usage
+## Installation 
 
-### Installation 
+### Windows, Ubuntu and MacOs
+    
+• Clone the **repository**
+  
+• Run the command <code> pip install -r requirements.txt </code>
+  
+• Open your terminal and run the python file: <code> python app.py </code>
+  
+• A link will appear after running this file.
 
-<details>
-    <summary><b>Windows, Ubuntu and MacOs</b></summary>
+• Click on this link and use DermaAssist.
 
-   1. Make sure you have the Python Interpreter with the following modules installed :
-      -flask
-      -twilio
-      -tensorflow
-      -firebase_admin
-      -numpy
-      -pandas
-      -os
-      -PyPDF2
-      -jinja2
-      -smtplib
-      -random
-  2. Clone the repository or Download the Code
-  3. Open your terminal and run the python file: <code> python app.py </code>
-  4. A link will appear after running this file.
-  5. Click on this link and use DermaAssist.
-</details>
-
-### Navigation
-
-<details>
-    <summary><b>Instructions for using DermaAssist web application</b></summary>
-
-   1. After you open the website on your preffered browser, login or signup as pathologist using firebase authentication.
-   2. After loggin in, the pathologist
-   will be presented with options to either add a new doctor to the system, view existing doctors or directly add a patient for an existing doctor.
-   3. After a patient is added/selected successfully, the pathologist is presented with an option to upload the skin lesion image for classification.
-   3. The deep learning model will then process the image and provide you with the appropriate diagnosis of the skin lesion image.
-   5. After successful diagnosis, the pathologist will be presented with an option to generate a medical report.
-   6. If selected, the medical report template allows the pathologist to digitally sign and verify the report having the appropriate diagnosis of the patient.
-   7. Once the report is finalized, pathologist can mail the report to the doctor in an encrypted format.
-   8. The password to the encrypted medical report pdf which is mailed to the doctor's email ID can be accessed by entering the randomly generated alpha-numeric code sent as SMS on doctor's phone for two-factor encryption.
-</details>
 
 ## Team
 
-### Project Guide:
-Mrs. Pooja Malhotra <br>
-
-### Members:
 | Sr No. | Name               | E-mail                       | git-profile     |
 | -------| -------------------| -----------------------------| ----------------|
-| 1.     | Shriya Pingulkar   | shriya.pingulkar@somaiya.edu | shriya02-coder  |
-| 2.     | Aryaman Tiwary     | aryaman.tiwary@somaiya.edu   | Aryaman0809     |
-| 3.     | Diti Divekar       | diti.divekar@somaiya.edu     | DITI2209        |
-
-
-
+| 1.     | Aryaman Tiwary     | aryaman.tiwary@somaiya.edu   | Aryaman0809     |
+| 2.     | Diti Divekar       | diti.divekar@somaiya.edu     | DITI2209        |
+| 3.     | Shriya Pingulkar   | shriya.pingulkar@somaiya.edu | shriya02-coder  |
 
