@@ -1,4 +1,5 @@
 # DermaAssist: An automated classification system for detection of skin cancer using ML 
+![image](https://github.com/DITI2209/DermaAssist/assets/87538625/5c92a268-58d8-4aef-8e87-9077053d75fb)
 
 
 ## Table of Contents
